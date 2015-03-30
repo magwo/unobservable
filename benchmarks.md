@@ -6,4 +6,4 @@ http://jsperf.com/js-objs-vs-arrays
 
 # On using pre-allocated arrays:
 
-http://jsperf.com/pre-allocated-arrays/59 (pre-allocation seems very performant unless you overflow)
+http://jsperf.com/pre-allocated-arrays/59 (pre-allocation seems very performant unless you overflow, but penalty for overflowing is not too bad)
