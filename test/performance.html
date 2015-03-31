@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Observable.js performance tests</title>
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="../unobservable.js"></script>
+    <script type="text/javascript" src="benchmark.js"></script>
+
+    <script>
+        var suite = new Benchmark.Suite;
+
+        // add tests
+        suite.add('new Observable', function() {
+          new unobservable.Observable();
+        })
+        .add('String#indexOf', function() {
+          'Hello World!'.indexOf('o') > -1;
+        })
+        .add('String#match', function() {
+          !!'Hello World!'.match(/o/);
+        })
+        // add listeners
+        .on('cycle', function(event) {
+          console.log(String(event.target));
+        })
+        .on('complete', function() {
+          console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+        })
+        // run async
+        .run({ 'async': true });
+        console.log("Running benchmarks, please wait...");
+    </script>
+</head>
+<body>
+<h1>Observabje.js performance benchmarks</h1>
+<p>Check console for reports</p>
+</body>
+</html>
