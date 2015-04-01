@@ -15,11 +15,8 @@
         suite.add('new Observable', function() {
           new unobservable.Observable();
         })
-        .add('String#indexOf', function() {
-          'Hello World!'.indexOf('o') > -1;
-        })
-        .add('String#match', function() {
-          !!'Hello World!'.match(/o/);
+        .add('unobservable.observable({})', function() {
+          unobservable.observable({});
         })
         // add listeners
         .on('cycle', function(event) {
