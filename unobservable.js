@@ -106,7 +106,7 @@ unobservable.observable = function(obj, options) {
 unobservable.Observable = function() {
     this.callbacks = {};
 };
-unobservable.observable(unobservable.Observable.prototype, {numPreallocatedHandlers: 400, addDataMembers: false});
+unobservable.observable(unobservable.Observable.prototype, {numPreallocatedHandlers: 2, addDataMembers: false});
 unobservable.asObservable = unobservable.observable;
 unobservable.CustomArray = CustomArray; // Expose for testability
 })((typeof window !== "undefined" ? window.unobservable = {} : exports));
