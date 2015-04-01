@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Observable.js manual tests</title>
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="../unobservable.js"></script>
+    <script type="text/javascript" src="riot_observable.js"></script>
+    <script type="text/javascript" src="sizeof.js"></script>
+
+    <script>
+        var all = new Array(10000);
+        var N = 1000;
+        var push = 0;
+
+        var mixedinObs
+            , classObs
+            , riotObs;
+
+        function reset() {
+            mixedinObs = unobservable.observable({});
+            classObs = new unobservable.Observable();
+            riotObs = riot.observable({});
+            all[push++] = mixedinObs;
+            all[push++] = classObs;
+            all[push++] = riotObs;
+        }
+
+        function makeObservableMixin() {
+            for(var i=0; i<N; i++) {
+                all[push++] = unobservable.observable({});
+            }
+        }
+
+        function instantiateClassObservable() {
+            for(var i=0; i<N; i++) {
+                all[push++] = new unobservable.Observable(); 
+            }
+        }
+
+        var someCount = 0;
+        function someHandler(num, num2) { someCount += num; someCount += num2; };
+
+        function classObsRegisterHandlers() {
+            for(var i=0; i<N; i++) {
+                classObs.on("foo" + i, someHandler);
+            }
+        }
+
+        function riotRegisterHandlers() {
+            for(var i=0; i<N; i++) {
+                riotObs.on("foo" + i, someHandler);
+            }
+        }
+
+        function makeRiotObservable() {
+            for(var i=0; i<N; i++) {
+                all[push++] = riot.observable({});
+            }
+        }
+
+        function classObsTriggerHandlers() {
+            for(var i=0; i<N; i++) {
+                classObs.trigger("foo", i+1);
+            }
+        }
+
+        function riotTriggerHandlers() {
+            for(var i=0; i<N; i++) {
+                riotObs.trigger("foo", i, i+1);
+            }
+        }
+
+        reset();
+
+    </script>
+</head>
+<body>
+<h1>Observabje.js manual testing for memory profiling</h1>
+<div>
+    <div>
+        <h4>Observable mixin</h4>
+        <button onclick="setTimeout(function() { makeObservableMixin() }, 1000)">Make observable</button>
+    </div>
+    <div>
+        <h4>Observable class</h4>
+        <button onclick="setTimeout(function() { instantiateClassObservable() }, 1000)">Instantiate</button>
+        <button onclick="reset(); setTimeout(function() { classObsRegisterHandlers() }, 1000)">Register handlers</button>
+        <button onclick="reset(); classObs.on('foo', someHandler); setTimeout(function() { classObsTriggerHandlers() }, 1000)">Trigger handlers</button>
+    </div>
+    <div>
+        <h4>Riot</h4>
+        <button onclick="setTimeout(function() { makeRiotObservable() }, 1000)">Make observable</button>
+        <button onclick="reset(); setTimeout(function() { riotRegisterHandlers() }, 1000)">Register handlers</button>
+        <button onclick="reset(); riotObs.on('foo', someHandler); setTimeout(function() { riotTriggerHandlers() }, 1000)">Trigger handlers</button>
+    </div>
+</div>
+</body>
+</html>

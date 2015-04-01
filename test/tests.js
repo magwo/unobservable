@@ -154,5 +154,21 @@ describe("Observable class", function() {
         o.trigger("baz");
         expect(handlers.someHandler.calls.count()).toBe(1);
     });
+
+    it("can remove self during triggering", function() {
+        var localHandlers = {selfRemovingHandler: function() { o.off("foo", localHandlers.selfRemovingHandler); }};
+        spyOn(localHandlers, "selfRemovingHandler").and.callThrough();
+        o.on("foo", handlers.someHandler);
+        o.on("foo", localHandlers.selfRemovingHandler)
+        o.one("foo", handlers.someHandler2);
+        expect(o.callbacks["foo"].len).toBe(3);
+        o.trigger("foo");
+        expect(o.callbacks["foo"].len).toBe(1);
+        o.trigger("foo");
+        expect(o.callbacks["foo"].len).toBe(1);
+        expect(handlers.someHandler.calls.count()).toBe(2);
+        expect(localHandlers.selfRemovingHandler.calls.count()).toBe(1);
+        expect(handlers.someHandler2.calls.count()).toBe(1);
+    });
 });
 

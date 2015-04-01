@@ -95,8 +95,8 @@ unobservable.observable = function(obj, options) {
             var fn = fns.arr[i];
             if(fn.typed) { fn.call(this, name, arg1, arg2, arg3, arg4); }
             else { fn.call(this, arg1, arg2, arg3, arg4); }
-            if (fn.one) { console.log("Remove due to 'one'"); fns.removeAt(i, 1); fn.one = false; i--; }
-            else if(fns.arr[i] && fns.arr[i] !== fn) { console.log("Self-removal"); i-- } // Makes self-removal possible during iteration
+            if (fn.one) { fns.removeAt(i, 1); fn.one = false; i--; }
+            else if(fns.arr[i] && fns.arr[i] !== fn) { i-- } // Makes self-removal possible during iteration
         }
         return this;
     };
@@ -106,7 +106,7 @@ unobservable.observable = function(obj, options) {
 unobservable.Observable = function() {
     this.callbacks = {};
 };
-unobservable.observable(unobservable.Observable.prototype, {numPreallocatedHandlers: 2, addDataMembers: false});
+unobservable.observable(unobservable.Observable.prototype, {numPreallocatedHandlers: 400, addDataMembers: false});
 unobservable.asObservable = unobservable.observable;
 unobservable.CustomArray = CustomArray; // Expose for testability
 })((typeof window !== "undefined" ? window.unobservable = {} : exports));
