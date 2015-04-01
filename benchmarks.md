@@ -15,3 +15,11 @@ http://jsperf.com/string-split-vs-indexof-stepping (split is very fast in split 
 ### On pushpopping custom and normal array:
 
 http://jsperf.com/customarray-vs-array (keep in mind the custom array leaves no garbage to collect, which the normal one probably does)
+
+
+
+### Unobservable.js vs riot.js
+
+http://jsperf.com/unobservable-vs-riot
+
+http://jsperf.com/unobservable-vs-riot-handler-reg
